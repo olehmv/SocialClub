@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -43,20 +44,31 @@ public class Plitter implements UserDetails, Serializable{
 	private String postalCode;
 	private String latitude;
 	private String longitude;
-	private Date registrationTime;
+	private Date registrationDate;
 	@Enumerated
 	private Status status;
 	@Enumerated
 	private Role role;
-	@OneToMany(mappedBy="plitter",cascade=CascadeType.ALL)
+	@OneToMany
 	List<Plittle>plittles=new ArrayList<>();
+    @ElementCollection(targetClass=String.class)
+	private List<String>photos=new ArrayList<>();
+	
 
-	public Date getRegistrationTime() {
-		return registrationTime;
+	public List<String> getPhotos() {
+		return photos;
 	}
 
-	public void setRegistrationTime(Date data) {
-		this.registrationTime = data;
+	public void setPhotos(List<String> photos) {
+		this.photos = photos;
+	}
+
+	public Date getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(Date data) {
+		this.registrationDate = data;
 	}
 
 	public String getLatitude() {
@@ -221,7 +233,7 @@ public class Plitter implements UserDetails, Serializable{
 		return "Plitter [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", profilePicture=" + profilePicture + ", countryCode=" + countryCode + ", countryName=" + countryName
 				+ ", region=" + region + ", regionName=" + regionName + ", city=" + city + ", postalCode=" + postalCode
-				+ ", latitude=" + latitude + ", longitude=" + longitude + ", registrationTime=" + registrationTime
+				+ ", latitude=" + latitude + ", longitude=" + longitude + ", registrationTime=" + registrationDate
 				+ ", status=" + status + ", role=" + role + ", plittles=" + plittles + "]";
 	}
 

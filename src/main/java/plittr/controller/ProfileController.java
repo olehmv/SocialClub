@@ -1,21 +1,28 @@
 package plittr.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import plittr.entity.Plitter;
-import plittr.entity.Role;
 import plittr.exception.PlitterNotFoundException;
 import plittr.exception.error.ErrorInfo;
 import plittr.service.PlitterService;
@@ -34,8 +41,8 @@ public class ProfileController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public Plitter getProfile(@PathVariable long id) {
-		Plitter entity = plitterService.getPlitter(id);
+	public Plitter getProfile(@PathVariable String id) {
+		Plitter entity = plitterService.getPlitter(Long.valueOf(id));
 		if (entity == null) {
 			throw new PlitterNotFoundException();
 		}
@@ -73,6 +80,20 @@ public class ProfileController {
 		}
 		return entity;
 	}
+	
+	@Autowired
+  ServletContext servletContext; 
+	@RequestMapping(value = "/img", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> plitterImage(@PathVariable String profilePicture) throws IOException {
+		System.out.println(profilePicture);
+		System.out.println("file:${catalina.home}");
+	    InputStream in = servletContext.getResourceAsStream("/WEB-INF/img/dell-streak-7.1.jpg");
+	    final HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.IMAGE_JPEG);
+
+	    return new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
+	}
+	
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(PlitterNotFoundException.class)
 	ErrorInfo

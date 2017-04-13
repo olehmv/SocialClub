@@ -1,6 +1,10 @@
+/**
+ * 
+ */
 'use strict';
-//$resource(url, [paramDefaults], [actions], options);
-App.factory('Profile', [ '$resource', function($resource) {
+
+angular.module("core.plitter")
+.factory('Plitter', [ '$resource', function($resource) {
 	// $resource() function returns an object of resource class
 	return $resource('http://localhost:8080/social/plitters/:id', {
 		id : '@id'
@@ -9,6 +13,9 @@ App.factory('Profile', [ '$resource', function($resource) {
 		      method: 'PUT' // To send the HTTP Put request when calling this custom update method.
 		}
 		
+	},
+	{
+	    stripTrailingSlashes: false
 	}
 );
 }]);

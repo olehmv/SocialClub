@@ -1,0 +1,26 @@
+<img ng-src="/social/profilePicture/{{$ctrl.mainImageUrl}}" class="plitter" />
+
+<h1>{{$ctrl.plitter.username}}</h1>
+
+
+<ul class="plitter-thumbs">
+  <li ng-repeat="img in $ctrl.plitter.photos">
+    <img ng-src="/social/profilePicture/{{img}}" ng-click="$ctrl.setImage(img)" />
+  </li>
+</ul>
+  <li>
+    <span>Hardware</span>
+    <dl>
+      <dt>Id</dt>
+      <dd>{{$ctrl.plitter.id}}</dd>
+      <dt>Uername</dt>
+      <dd>{{$ctrl.plitter.username}}</dd>
+      <dt>Email</dt>
+      <dd>{{$ctrl.plitter.email}}</dd>
+      <dt>Country</dt>
+      <dd>{{$ctrl.plitter.countryName}}</dd>
+      <dt>City</dt>
+      <dd>{{$ctrl.plitter.city}}</dd>
+    </dl>
+  </li>
+ 

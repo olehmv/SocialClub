@@ -2,6 +2,8 @@ package plittr.service.impl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +28,7 @@ import plittr.repository.PlitterRepository;
 import plittr.repository.PlittleRepository;
 import plittr.service.PlitterService;
 
-@Service
+@Service("userDetailsService")
 @Transactional
 public class PlitterServiceImpl implements PlitterService, UserDetailsService {
 	@Autowired
@@ -52,7 +54,7 @@ public class PlitterServiceImpl implements PlitterService, UserDetailsService {
 	public Plitter savePlitter(String ipAddress,Plitter plitter) {
 				ServerLocation sl=serverLocation.getLocation(ipAddress);
 				plitter.setPassword(passwordEncoder.encode(plitter.getPassword()));
-				plitter.setProfilePicture(plitter.getUsername()+".jpg");
+//				plitter.setProfilePicture(plitter.getUsername()+".jpg");
 				plitter.setRole(Role.ROLE_USER);
 				plitter.setStatus(plitter.getStatus());
 				plitter.setLatitude(sl.getLatitude());
@@ -63,7 +65,7 @@ public class PlitterServiceImpl implements PlitterService, UserDetailsService {
 				plitter.setCity(sl.getCity());
 				plitter.setCountryCode(sl.getCountryCode());
 				plitter.setCountryName(sl.getCountryName());
-				plitter.setRegistrationTime(new Date());
+				plitter.setRegistrationDate(new Date());
 				return plitterRepository.save(plitter);
 	}
 
@@ -80,20 +82,26 @@ public class PlitterServiceImpl implements PlitterService, UserDetailsService {
 
 		for (int i = 0; i < 5; i++) {
 			Plitter plitter = new Plitter();
-			plitter.setUsername("oleg");
+			plitter.setUsername("oleg"+i);
 			plitter.setEmail("oleg@gmail.com");
 			plitter.setPassword(passwordEncoder.encode("oleg"));
 			plitter.setRole(Role.ROLE_USER);
 			plitter.setStatus(Status.BASIC);
-			
+			plitter.getPhotos().add("dell-streak-7.1.jpg");
+			plitter.getPhotos().add("dell-streak-7.2.jpg");
+			plitter.getPhotos().add("dell-streak-7.3.jpg");
+			plitter.getPhotos().add("dell-streak-7.4.jpg");
+			plitter.setProfilePicture("dell-streak-7.1.jpg");
+			savePlitter(plitter);
 			Plittle plittle = new Plittle();
 			plittle.setLatitude(cl.getLatitude());
 			plittle.setLongitude(cl.getLongitude());
 			plittle.setPlitter(plitter);
 			plittle.setTime(new Date());
+			plittleRepository.save(plittle);
 			plitter.getPlittles().add(plittle);
 			savePlitter(plitter);
-			plittleRepository.save(plittle);
+//			plittleRepository.save(plittle);
 //			Plitter entity = plitterRepository.findOne((long) i);
 //			System.out.println(entity);
 		}

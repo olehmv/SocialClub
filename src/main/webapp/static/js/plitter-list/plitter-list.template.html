@@ -1,0 +1,35 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+			<!--Sidebar content-->
+
+			<p>
+				Search: <input ng-model="$ctrl.query" />
+			</p>
+
+			<p>
+				Sort by: <select ng-model="$ctrl.orderProp">
+					<option value="username">Alphabetical</option>
+					<option value="registrationDate">Newest</option>
+				</select>
+			</p>
+
+		</div>
+		<div class="col-md-10">
+			<!--Body content-->
+
+			<ul class="plitters">
+				<li
+					ng-repeat="plitter in $ctrl.plitters | filter:$ctrl.query | orderBy:$ctrl.orderProp"
+					class="thumbnail"><a href="#!/plitters/{{plitter.id}}"
+					class="thumb"> <img
+						ng-src="/social/profilePicture/{{plitter.profilePicture}}"
+						alt="{{plitter.username}}" />
+				</a> <a href="#!/plitter/{{plitter.id}}">{{plitter.username}}</a>
+					<p>{{plitter.countryName}}</p>
+					<p>{{plitter.registrationDate}}</p></li>
+			</ul>
+
+		</div>
+	</div>
+</div>

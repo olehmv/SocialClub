@@ -1,42 +1,79 @@
-body, #mainWrapper {
-	height: 70%;
-	background-color:rgb(245, 245, 245);
-}
-
-body, .form-control{
-	font-size:12px!important;
-}
-
-.floatRight{
-	float:right;
-	margin-right: 18px;
-}
-
-.has-error{
-	color:red;
-}
-
-.formcontainer{
-	background-color: #DAE8E8;
-	padding: 20px;
-}
-
-.tablecontainer{
-	padding-left: 20px;
-}
-
-.generic-container {
-  width:80%;
-  margin-left: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+body {
   padding: 20px;
-  background-color: #EAE7E7;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 0 30px black;
 }
 
-.custom-width {
-    width: 80px !important;
+h1 {
+  border-bottom: 1px solid gray;
+}
+
+/* View: Phone list */
+.plitters {
+  list-style: none;
+}
+
+.plitters li {
+  clear: both;
+  height: 115px;
+  padding-top: 15px;
+}
+
+.thumb {
+  float: left;
+  height: 100px;
+  margin: -0.5em 1em 1.5em 0;
+  padding-bottom: 1em;
+  width: 100px;
+}
+
+/* View: Phone detail */
+.plitter {
+  background-color: white;
+  border: 1px solid black;
+  float: left;
+  height: 400px;
+  margin-bottom: 2em;
+  margin-right: 3em;
+  padding: 2em;
+  width: 400px;
+}
+
+.plitter-thumbs {
+  list-style: none;
+  margin: 0;
+}
+
+.plitter-thumbs img {
+  height: 100px;
+  padding: 1em;
+  width: 100px;
+}
+
+.plitter-thumbs li {
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+  display: inline-block;
+  margin: 1em;
+}
+
+.specs {
+  clear: both;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.specs dt {
+  font-weight: bold;
+}
+
+.specs > li {
+  display: inline-block;
+  vertical-align: top;
+  width: 200px;
+}
+
+.specs > li > span {
+  font-size: 1.2em;
+  font-weight: bold;
 }

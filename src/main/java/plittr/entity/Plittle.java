@@ -75,7 +75,7 @@ public class Plittle implements Serializable{
 	@Override
 	public String toString() {
 		return "Plittle [id=" + id + ", message=" + message + ", time=" + time + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", plitter=" + plitter + "]";
+				+ ", longitude=" + longitude + "]";
 	}
 
 }
