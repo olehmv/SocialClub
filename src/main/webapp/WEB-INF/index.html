@@ -7,17 +7,22 @@
       <link rel="stylesheet" href="/social/static/css/bootstrap.css" />
       <link rel="stylesheet" href="/social/static/js/app.animations.css" />
   
+  </head>
+  <body>
 
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.js"></script>
+    <div class="view-container">
+      <div ng-view class="view-frame"></div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.js"></script>
     
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
     <script src="https://code.angularjs.org/1.5.7/angular-animate.js"></script>
     <script src="https://code.angularjs.org/1.5.7/angular-route.js"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-resource.js"></script>
+	<script src="/social/static/js/app.animations.js"></script>
     <script src="/social/static/js/app.module.js"></script>
     <script src="/social/static/js/app.config.js"></script>
-   <script src="/social/static/js/app.animations.js"></script>
     <script src="/social/static/js/core/core.module.js"></script>
     <script src="/social/static/js/core/plitter/plitter.module.js"></script>
     <script src="/social/static/js/core/plitter/plitter.service.js"></script>
@@ -25,12 +30,6 @@
     <script src="/social/static/js/plitter-list/plitter-list.component.js"></script>
     <script src="/social/static/js/plitter-detail/plitter-detail.module.js"></script>
     <script src="/social/static/js/plitter-detail/plitter-detail.component.js"></script>
-  </head>
-  <body>
-
-    <div class="view-container">
-      <div ng-view class="view-frame"></div>
-    </div>
-
-  </body>
+  
+</body>
 </html>

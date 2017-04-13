@@ -21,8 +21,8 @@
 			<ul class="plitters">
 				<li
 					ng-repeat="plitter in $ctrl.plitters | filter:$ctrl.query | orderBy:$ctrl.orderProp"
-					class="thumbnail"><a href="#!/plitters/{{plitter.id}}"
-					class="thumb"> <img
+					class="thumbnail plitter-list-item"><a
+					href="#!/plitters/{{plitter.id}}" class="thumb"> <img
 						ng-src="/social/profilePicture/{{plitter.profilePicture}}"
 						alt="{{plitter.username}}" />
 				</a> <a href="#!/plitter/{{plitter.id}}">{{plitter.username}}</a>
@@ -33,3 +33,4 @@
 		</div>
 	</div>
 </div>
+

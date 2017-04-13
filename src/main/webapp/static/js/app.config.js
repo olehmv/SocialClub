@@ -16,6 +16,3 @@ angular.
         otherwise('/plitters');
     }
   ]);
-/**
- * 
- */
