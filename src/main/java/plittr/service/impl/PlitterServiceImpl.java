@@ -8,8 +8,12 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +43,7 @@ public class PlitterServiceImpl implements PlitterService, UserDetailsService {
 	private PlittleRepository plittleRepository;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	static final Logger logger = LoggerFactory.getLogger(PlitterServiceImpl.class);
 
 	@Override
 	public List<Plitter> getPlitters() {
@@ -51,24 +56,23 @@ public class PlitterServiceImpl implements PlitterService, UserDetailsService {
 	}
 
 	@Override
-	public Plitter savePlitter(String ipAddress,Plitter plitter) {
-				ServerLocation sl=serverLocation.getLocation(ipAddress);
-				plitter.setPassword(passwordEncoder.encode(plitter.getPassword()));
-//				plitter.setProfilePicture(plitter.getUsername()+".jpg");
-				plitter.setRole(Role.ROLE_USER);
-				plitter.setStatus(plitter.getStatus());
-				plitter.setLatitude(sl.getLatitude());
-				plitter.setLongitude(sl.getLongitude());
-				plitter.setRegion(sl.getRegion());
-				plitter.setRegionName(sl.getRegionName());
-				plitter.setPostalCode(sl.getPostalCode());
-				plitter.setCity(sl.getCity());
-				plitter.setCountryCode(sl.getCountryCode());
-				plitter.setCountryName(sl.getCountryName());
-				plitter.setRegistrationDate(new Date());
-				return plitterRepository.save(plitter);
+	public Plitter savePlitter(String ipAddress, Plitter plitter) {
+		ServerLocation sl = serverLocation.getLocation(ipAddress);
+		plitter.setPassword(passwordEncoder.encode(plitter.getPassword()));
+		// plitter.setProfilePicture(plitter.getUsername()+".jpg");
+		plitter.setRole(Role.ROLE_USER);
+		plitter.setStatus(plitter.getStatus());
+		plitter.setLatitude(sl.getLatitude());
+		plitter.setLongitude(sl.getLongitude());
+		plitter.setRegion(sl.getRegion());
+		plitter.setRegionName(sl.getRegionName());
+		plitter.setPostalCode(sl.getPostalCode());
+		plitter.setCity(sl.getCity());
+		plitter.setCountryCode(sl.getCountryCode());
+		plitter.setCountryName(sl.getCountryName());
+		plitter.setRegistrationDate(new Date());
+		return plitterRepository.save(plitter);
 	}
-
 
 	@Override
 	public void deletePlitter(Plitter entity) {
@@ -82,7 +86,7 @@ public class PlitterServiceImpl implements PlitterService, UserDetailsService {
 
 		for (int i = 0; i < 5; i++) {
 			Plitter plitter = new Plitter();
-			plitter.setUsername("oleg"+i);
+			plitter.setUsername("oleg" + i);
 			plitter.setEmail("oleg@gmail.com");
 			plitter.setPassword(passwordEncoder.encode("oleg"));
 			plitter.setRole(Role.ROLE_USER);
@@ -101,15 +105,22 @@ public class PlitterServiceImpl implements PlitterService, UserDetailsService {
 			plittleRepository.save(plittle);
 			plitter.getPlittles().add(plittle);
 			savePlitter(plitter);
-//			plittleRepository.save(plittle);
-//			Plitter entity = plitterRepository.findOne((long) i);
-//			System.out.println(entity);
+			// plittleRepository.save(plittle);
+			// Plitter entity = plitterRepository.findOne((long) i);
+			// System.out.println(entity);
 		}
 	}
 
 	@Override
-	public Plitter loadUserByUsername(String userName) throws UsernameNotFoundException {
-		return plitterRepository.findByUsername(userName);
+	public User loadUserByUsername(String username) throws UsernameNotFoundException {
+		Plitter plitter = plitterRepository.findByUsername(username);
+		logger.info("User : {}", plitter);
+		if (plitter == null) {
+			logger.info("User not found");
+			throw new UsernameNotFoundException("Username not found");
+		}
+		return new org.springframework.security.core.userdetails.User(plitter.getUsername(), plitter.getPassword(),
+				true, true, true, true, getGrantedAuthorities(plitter));
 	}
 
 	@Override
@@ -120,6 +131,29 @@ public class PlitterServiceImpl implements PlitterService, UserDetailsService {
 	@Override
 	public Plitter updatePlitter(Plitter entity) {
 		return savePlitter(entity);
+	}
+
+	private List<GrantedAuthority> getGrantedAuthorities(Plitter plitter) {
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority(plitter.getRole().name()));
+		logger.info("authorities : {}", authorities);
+		return authorities;
+	}
+
+	@Override
+	public Plitter findById(Integer id) {
+				return getPlitter(id);
+	}
+	
+	
+	public boolean isPlitterUsernameUnique(Long id, String username) {
+		Plitter plitter =plitterRepository.findByUsername(username);
+		return ( plitter == null || ((id != null) && (plitter.getId() == id)));
+	}
+
+	@Override
+	public Plitter findByUsername(String username) {
+		return plitterRepository.findByUsername(username);
 	}
 
 }

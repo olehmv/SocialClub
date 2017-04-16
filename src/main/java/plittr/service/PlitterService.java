@@ -14,6 +14,8 @@ public interface PlitterService {
 	void deletePlitter(Plitter plitter);
 	Plitter savePlitter(Plitter plitter);
 	Plitter updatePlitter(Plitter entity);
-
+	Plitter findById(Integer id);
+	boolean isPlitterUsernameUnique(Long id, String username);
+	Plitter findByUsername(String username);
 
 }

@@ -3,8 +3,11 @@ package plittr.config;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -25,6 +28,8 @@ import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 @EnableWebMvc
 @ComponentScan("plittr")
 public class WebConfig extends WebMvcConfigurerAdapter {
+//	@Autowired
+//	private PlitterConverter plitterConverter;
 
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -55,15 +60,27 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
 	    registry.addResourceHandler("/static/**").addResourceLocations("/static/");
 	    registry.addResourceHandler("/images/**").addResourceLocations("file:${catalina.home}/images/");
-
 	    
 	}
+//	 @Override
+//	    public void addFormatters(FormatterRegistry registry) {
+//	        registry.addConverter(plitterConverter);
+//	    }
+	 /**
+	     * Configure MessageSource to lookup any validation/error message in internationalized property files
+	     */
+	    @Bean
+	    public MessageSource messageSource() {
+	        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+	        messageSource.setBasename("messages");
+	        return messageSource;
+	    }     
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setPrefix("/WEB-INF/");
-		viewResolver.setSuffix(".html");
+		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setSuffix(".jsp");
 		registry.viewResolver(viewResolver);
 	}
 	//"variable:.+"

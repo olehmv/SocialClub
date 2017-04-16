@@ -25,9 +25,9 @@ public class IndexController {
 	public String getPage(){
 		return "index";
 	}
-	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String goLogin(){
-		return "login";
-	}
+//	@RequestMapping(value="/login", method=RequestMethod.GET)
+//	public String goLogin(){
+//		return "login";
+//	}
 	
 }
