@@ -29,9 +29,11 @@ import plittr.service.PlitterService;
 
 @RestController
 @RequestMapping(value = "/plitters")
-public class ProfileController {
+public class PlitterController {
 	@Autowired
 	private PlitterService plitterService;
+	@Autowired
+	ServletContext servletContext; 
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
@@ -81,18 +83,7 @@ public class ProfileController {
 		return entity;
 	}
 	
-	@Autowired
-  ServletContext servletContext; 
-	@RequestMapping(value = "/img", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> plitterImage(@PathVariable String profilePicture) throws IOException {
-		System.out.println(profilePicture);
-		System.out.println("file:${catalina.home}");
-	    InputStream in = servletContext.getResourceAsStream("/WEB-INF/img/dell-streak-7.1.jpg");
-	    final HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.IMAGE_JPEG);
 
-	    return new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
-	}
 	
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(PlitterNotFoundException.class)
@@ -100,4 +91,12 @@ public class ProfileController {
 	handleBadRequest(HttpServletRequest req, Exception ex) {
 	    return new ErrorInfo(req.getRequestURL(), ex);
 	} 
+	
+	@RequestMapping(value = "/profilePicture/{profilePicture}",method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	public byte[] plitterImage(@PathVariable String profilePicture) throws IOException {
+		System.out.println(profilePicture);
+	    InputStream in = servletContext.getResourceAsStream("/WEB-INF/img/"+profilePicture);
+	    System.out.println(in.toString());
+	    return IOUtils.toByteArray(in);
+	}
 }

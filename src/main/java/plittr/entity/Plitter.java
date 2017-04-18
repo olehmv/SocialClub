@@ -60,6 +60,7 @@ public class Plitter implements UserDetails, Serializable{
 
 	public List<String> getPhotos() {
 		return photos;
+	
 	}
 
 	public void setPhotos(List<String> photos) {
